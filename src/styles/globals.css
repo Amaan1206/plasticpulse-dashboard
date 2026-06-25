@@ -1,0 +1,430 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Outfit', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #060A14;
+  }
+
+  body {
+    @apply text-slate-100;
+    overflow-x: hidden;
+    background: #060A14;
+  }
+
+  ::selection {
+    background: rgba(0, 232, 174, 0.25);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #060A14;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 232, 174, 0.15);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 232, 174, 0.3);
+  }
+
+  /* Leaflet popup overrides */
+  .leaflet-popup-content-wrapper {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+  .leaflet-popup-content {
+    margin: 0 !important;
+    width: auto !important;
+  }
+  .leaflet-popup-tip {
+    background: rgba(12, 21, 39, 0.95) !important;
+    box-shadow: none !important;
+  }
+  .leaflet-popup-close-button {
+    display: none !important;
+  }
+}
+
+@layer components {
+  /* Glass Panel V2 — primary containers */
+  .glass-panel {
+    background: rgba(12, 21, 39, 0.55);
+    backdrop-filter: blur(24px) saturate(1.6);
+    -webkit-backdrop-filter: blur(24px) saturate(1.6);
+    border: 1px solid rgba(0, 232, 174, 0.06);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Glass Card V2 — individual cards */
+  .glass-card {
+    background: rgba(12, 21, 39, 0.45);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(0, 232, 174, 0.05);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.015'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glass-card:hover {
+    border-color: rgba(0, 232, 174, 0.12);
+    background: rgba(12, 21, 39, 0.55);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), 0 0 40px rgba(0, 232, 174, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+  }
+
+  /* Signature gradient text */
+  .text-gradient {
+    background: linear-gradient(135deg, #00E8AE 0%, #7A68FF 50%, #FF5C85 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #FFC81A 0%, #FF853D 50%, #FF5C85 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-teal {
+    background: linear-gradient(135deg, #00E8AE 0%, #00C896 50%, #00A87E 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Stat number typography */
+  .stat-number {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  /* Colored glow effects */
+  .glow-teal {
+    box-shadow: 0 0 24px rgba(0, 232, 174, 0.12), 0 0 48px rgba(0, 232, 174, 0.04);
+  }
+
+  .glow-rose {
+    box-shadow: 0 0 24px rgba(255, 92, 133, 0.12), 0 0 48px rgba(255, 92, 133, 0.04);
+  }
+
+  .glow-sun {
+    box-shadow: 0 0 24px rgba(255, 200, 26, 0.12), 0 0 48px rgba(255, 200, 26, 0.04);
+  }
+
+  .glow-iris {
+    box-shadow: 0 0 24px rgba(122, 104, 255, 0.12), 0 0 48px rgba(122, 104, 255, 0.04);
+  }
+
+  /* Card entry animation */
+  .animate-enter {
+    animation: slide-reveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .page-transition {
+    animation: page-enter 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Card hover interactions */
+  .card-hover {
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px) scale(1.005);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35), 0 0 40px rgba(0, 232, 174, 0.06);
+  }
+
+  /* Premium button */
+  .premium-btn {
+    background: linear-gradient(135deg, #00E8AE 0%, #7A68FF 100%);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 232, 174, 0.2), 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .premium-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .premium-btn:hover::before {
+    left: 100%;
+  }
+
+  .premium-btn:hover {
+    box-shadow: 0 12px 40px rgba(0, 232, 174, 0.3), 0 4px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+  }
+
+  /* Shimmer border */
+  .shimmer-border {
+    position: relative;
+  }
+
+  .shimmer-border::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(0,232,174,0.3), rgba(122,104,255,0.3), rgba(255,92,133,0.3), rgba(0,232,174,0.3));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: border-dance 4s linear infinite;
+    background-size: 300% 300%;
+  }
+
+  /* Ambient mesh backgrounds */
+  .bg-mesh {
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(0, 232, 174, 0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(122, 104, 255, 0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(255, 92, 133, 0.02) 0%, transparent 50%);
+  }
+
+  .bg-aurora {
+    background: 
+      radial-gradient(ellipse at 0% 0%, rgba(0, 232, 174, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 100%, rgba(122, 104, 255, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 0%, rgba(255, 92, 133, 0.04) 0%, transparent 50%);
+  }
+
+  /* Spotlight card effect */
+  .card-spotlight {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-spotlight::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(0, 232, 174, 0.06), transparent 50%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+
+  .card-spotlight:hover::after {
+    opacity: 1;
+  }
+
+  /* Grid dot pattern */
+  .bg-grid-dots {
+    background-image: radial-gradient(rgba(0, 232, 174, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Gradient divider */
+  .gradient-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 232, 174, 0.15) 50%, transparent 100%);
+  }
+
+  /* ═══ Liquid Glass Pill Buttons ═══ */
+
+  /* Shared base for inactive pill items */
+  .liquid-glass-pill-inactive {
+    position: relative;
+    background: rgba(12, 21, 39, 0.25);
+    border: 1px solid transparent;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .liquid-glass-pill-inactive:hover {
+    background: rgba(0, 232, 174, 0.06);
+    border-color: rgba(0, 232, 174, 0.08);
+  }
+
+  /* Active liquid glass — Teal/Iris accent (filters, time ranges) */
+  .liquid-glass-pill-active {
+    position: relative;
+    background: 
+      linear-gradient(135deg, rgba(0, 232, 174, 0.12) 0%, rgba(122, 104, 255, 0.10) 100%),
+      rgba(12, 21, 39, 0.40);
+    backdrop-filter: blur(16px) saturate(1.8);
+    -webkit-backdrop-filter: blur(16px) saturate(1.8);
+    border: 1px solid rgba(0, 232, 174, 0.18);
+    box-shadow:
+      0 0 20px rgba(0, 232, 174, 0.08),
+      0 2px 12px rgba(0, 0, 0, 0.25),
+      inset 0 1px 1px rgba(255, 255, 255, 0.08),
+      inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  /* Top specular highlight */
+  .liquid-glass-pill-active::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.10) 0%,
+      rgba(255, 255, 255, 0.03) 40%,
+      transparent 60%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Subtle refraction/caustic shimmer */
+  .liquid-glass-pill-active::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -25%;
+    width: 150%;
+    height: 200%;
+    background: radial-gradient(
+      ellipse at 30% 20%,
+      rgba(0, 232, 174, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 70% 80%,
+      rgba(122, 104, 255, 0.06) 0%,
+      transparent 50%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Active liquid glass — Sun/Ember accent (scoreboard tabs) */
+  .liquid-glass-pill-active-warm {
+    position: relative;
+    background: 
+      linear-gradient(135deg, rgba(255, 200, 26, 0.12) 0%, rgba(255, 107, 26, 0.10) 100%),
+      rgba(12, 21, 39, 0.40);
+    backdrop-filter: blur(16px) saturate(1.8);
+    -webkit-backdrop-filter: blur(16px) saturate(1.8);
+    border: 1px solid rgba(255, 200, 26, 0.18);
+    box-shadow:
+      0 0 20px rgba(255, 200, 26, 0.08),
+      0 2px 12px rgba(0, 0, 0, 0.25),
+      inset 0 1px 1px rgba(255, 255, 255, 0.08),
+      inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .liquid-glass-pill-active-warm::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.10) 0%,
+      rgba(255, 255, 255, 0.03) 40%,
+      transparent 60%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .liquid-glass-pill-active-warm::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -25%;
+    width: 150%;
+    height: 200%;
+    background: radial-gradient(
+      ellipse at 30% 20%,
+      rgba(255, 200, 26, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 70% 80%,
+      rgba(255, 107, 26, 0.06) 0%,
+      transparent 50%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Inactive pill for warm variant */
+  .liquid-glass-pill-inactive-warm {
+    position: relative;
+    background: rgba(12, 21, 39, 0.25);
+    border: 1px solid transparent;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .liquid-glass-pill-inactive-warm:hover {
+    background: rgba(255, 200, 26, 0.06);
+    border-color: rgba(255, 200, 26, 0.08);
+  }
+
+  /* Style all date input picker indicators in our app */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8) sepia(1) saturate(5) hue-rotate(130deg);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

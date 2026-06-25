@@ -1,0 +1,7 @@
+[
+  {"id": "drv-001", "title": "Versova Beach Cleanup Drive", "area": "Versova", "target_kg": 500, "collected_kg": 347, "participant_count": 89, "date": "2026-06-10", "status": "active", "lat": 19.1000, "lng": 72.9000},
+  {"id": "drv-002", "title": "Juhu Beach Sunday Sweep", "area": "Juhu", "target_kg": 300, "collected_kg": 198, "participant_count": 56, "date": "2026-06-10", "status": "active", "lat": 19.0650, "lng": 72.8700},
+  {"id": "drv-003", "title": "Powai Lake Plastic Patrol", "area": "Powai", "target_kg": 200, "collected_kg": 0, "participant_count": 34, "date": "2026-06-15", "status": "upcoming", "lat": 19.0900, "lng": 72.8900},
+  {"id": "drv-004", "title": "Dadar Market Zero Waste", "area": "Dadar", "target_kg": 150, "collected_kg": 0, "participant_count": 22, "date": "2026-06-18", "status": "upcoming", "lat": 19.0720, "lng": 72.8650},
+  {"id": "drv-005", "title": "Bandra West Cleanup", "area": "Bandra", "target_kg": 400, "collected_kg": 412, "participant_count": 78, "date": "2026-06-05", "status": "complete", "lat": 19.0760, "lng": 72.8777}
+]

@@ -1,0 +1,20 @@
+{
+  "wards": [
+    {"name": "Bandra West", "zone": "H-West", "nodes_deployed": 5, "status": "Active", "avg_response_hours": 3.2, "overflows_7d": 2},
+    {"name": "Juhu", "zone": "K-West", "nodes_deployed": 4, "status": "Active", "avg_response_hours": 4.1, "overflows_7d": 3},
+    {"name": "Versova", "zone": "K-West", "nodes_deployed": 3, "status": "Active", "avg_response_hours": 5.8, "overflows_7d": 4},
+    {"name": "Powai", "zone": "S", "nodes_deployed": 2, "status": "Pending", "avg_response_hours": 8.5, "overflows_7d": 5},
+    {"name": "Andheri East", "zone": "K-East", "nodes_deployed": 4, "status": "Active", "avg_response_hours": 6.2, "overflows_7d": 3},
+    {"name": "Dadar", "zone": "F-North", "nodes_deployed": 3, "status": "Active", "avg_response_hours": 7.1, "overflows_7d": 4},
+    {"name": "Sion", "zone": "F-South", "nodes_deployed": 2, "status": "Pending", "avg_response_hours": 9.3, "overflows_7d": 6},
+    {"name": "Mahim", "zone": "F-North", "nodes_deployed": 1, "status": "Not Integrated", "avg_response_hours": null, "overflows_7d": 8}
+  ],
+  "response_log": [
+    {"bin_location": "Dadar TT Circle", "flagged_at": "2026-06-09T14:30:00Z", "serviced_at": "2026-06-09T17:15:00Z", "response_time": "2h 45m", "ward": "Dadar", "status": "Resolved"},
+    {"bin_location": "Juhu Beach Entry", "flagged_at": "2026-06-09T08:00:00Z", "serviced_at": "2026-06-09T13:30:00Z", "response_time": "5h 30m", "ward": "Juhu", "status": "Resolved"},
+    {"bin_location": "Versova Fishing Village", "flagged_at": "2026-06-09T16:00:00Z", "serviced_at": "2026-06-09T22:45:00Z", "response_time": "6h 45m", "ward": "Versova", "status": "Resolved"},
+    {"bin_location": "Sion Railway Station", "flagged_at": "2026-06-10T02:00:00Z", "serviced_at": null, "response_time": "Pending", "ward": "Sion", "status": "Pending"},
+    {"bin_location": "Mahim Causeway", "flagged_at": "2026-06-08T10:00:00Z", "serviced_at": "2026-06-08T23:30:00Z", "response_time": "13h 30m", "ward": "Mahim", "status": "Resolved"},
+    {"bin_location": "Powai Lake Promenade", "flagged_at": "2026-06-10T01:00:00Z", "serviced_at": null, "response_time": "Pending", "ward": "Powai", "status": "Pending"}
+  ]
+}

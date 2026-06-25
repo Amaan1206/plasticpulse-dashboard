@@ -1,0 +1,46 @@
+{
+  "name": "plasticpulse",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:client": "vite",
+    "dev:server": "npm --prefix server run dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "cd server && node server.js",
+    "server:install": "cd server && npm install",
+    "setup:server": "npm --prefix server install",
+    "db:init": "npm --prefix server run db:init",
+    "db:clear": "npm --prefix server run db:clear"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.8.0",
+    "chart.js": "^4.5.1",
+    "clsx": "^2.0.0",
+    "date-fns": "^2.30.0",
+    "framer-motion": "^10.16.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
+    "leaflet": "^1.9.4",
+    "leaflet.heat": "^0.2.0",
+    "lucide-react": "^0.294.0",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.3.1",
+    "react-dom": "^18.2.0",
+    "react-leaflet": "^4.2.1",
+    "react-router-dom": "^6.20.0",
+    "recharts": "^2.10.0",
+    "tailwind-merge": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6",
+    "vite": "^5.0.0"
+  }
+}

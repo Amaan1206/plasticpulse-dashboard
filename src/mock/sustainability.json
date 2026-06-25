@@ -1,0 +1,10 @@
+[
+  {"area": "Bandra West", "score": 87, "score_prev_week": 82, "correct_pct": 91.2, "kg_diverted": 456.7, "drive_participation": 12},
+  {"area": "Juhu", "score": 79, "score_prev_week": 81, "correct_pct": 84.5, "kg_diverted": 312.3, "drive_participation": 8},
+  {"area": "Versova", "score": 76, "score_prev_week": 74, "correct_pct": 82.1, "kg_diverted": 289.4, "drive_participation": 9},
+  {"area": "Powai", "score": 72, "score_prev_week": 68, "correct_pct": 78.9, "kg_diverted": 198.2, "drive_participation": 6},
+  {"area": "Andheri East", "score": 68, "score_prev_week": 65, "correct_pct": 74.3, "kg_diverted": 156.8, "drive_participation": 5},
+  {"area": "Dadar", "score": 64, "score_prev_week": 66, "correct_pct": 71.2, "kg_diverted": 134.5, "drive_participation": 4},
+  {"area": "Sion", "score": 61, "score_prev_week": 58, "correct_pct": 68.7, "kg_diverted": 112.3, "drive_participation": 3},
+  {"area": "Mahim", "score": 58, "score_prev_week": 55, "correct_pct": 65.4, "kg_diverted": 98.7, "drive_participation": 3}
+]

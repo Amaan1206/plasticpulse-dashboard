@@ -1,0 +1,16 @@
+node_modules/
+server/node_modules/
+dist/
+
+.env
+server/.env
+
+.DS_Store
+npm-debug.log*
+
+.vscode/
+.claude/
+
+final_plan (2).md
+/screen.png
+server/data.json

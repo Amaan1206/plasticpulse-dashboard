@@ -1,0 +1,22 @@
+{
+  "area_rankings": [
+    {"area": "Bandra West", "ward": "H-West", "score": 87, "total_scans": 1840, "correct_pct": 91.2, "trend": "up"},
+    {"area": "Juhu", "ward": "K-West", "score": 79, "total_scans": 1220, "correct_pct": 84.5, "trend": "down"},
+    {"area": "Versova", "ward": "K-West", "score": 76, "total_scans": 980, "correct_pct": 82.1, "trend": "up"},
+    {"area": "Powai", "ward": "S", "score": 72, "total_scans": 870, "correct_pct": 78.9, "trend": "up"},
+    {"area": "Andheri East", "ward": "K-East", "score": 68, "total_scans": 750, "correct_pct": 74.3, "trend": "up"},
+    {"area": "Dadar", "ward": "F-North", "score": 64, "total_scans": 620, "correct_pct": 71.2, "trend": "down"},
+    {"area": "Sion", "ward": "F-South", "score": 61, "total_scans": 540, "correct_pct": 68.7, "trend": "up"},
+    {"area": "Mahim", "ward": "F-North", "score": 58, "total_scans": 480, "correct_pct": 65.4, "trend": "same"}
+  ],
+  "citizen_leaderboard": [
+    {"name": "Rahul Mehra", "area": "Bandra West", "scans": 342, "drives_joined": 8, "points": 2840, "badges": ["top_scanner", "streak"]},
+    {"name": "Priya Sharma", "area": "Juhu", "scans": 298, "drives_joined": 12, "points": 2650, "badges": ["drive_hero", "educator"]},
+    {"name": "Amit Kulkarni", "area": "Versova", "scans": 276, "drives_joined": 6, "points": 2320, "badges": ["top_scanner"]},
+    {"name": "Sneha Desai", "area": "Powai", "scans": 245, "drives_joined": 9, "points": 2180, "badges": ["streak", "educator"]},
+    {"name": "Vikram Joshi", "area": "Andheri East", "scans": 218, "drives_joined": 5, "points": 1920, "badges": ["top_scanner"]},
+    {"name": "Neha Patil", "area": "Dadar", "scans": 195, "drives_joined": 7, "points": 1780, "badges": ["drive_hero"]},
+    {"name": "Rajesh Iyer", "area": "Sion", "scans": 172, "drives_joined": 4, "points": 1540, "badges": ["streak"]},
+    {"name": "Kavita Nair", "area": "Mahim", "scans": 156, "drives_joined": 3, "points": 1380, "badges": ["educator"]}
+  ]
+}

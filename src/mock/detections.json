@@ -1,0 +1,12 @@
+[
+  {"id": "det-001", "device_id": "esp-001", "timestamp": "2026-06-10T01:45:00Z", "plastic_type": "PET", "resin_code": 1, "confidence": 0.94, "contaminated": false, "correct_bin": true, "fill_level_pct": 67, "location": {"lat": 19.0760, "lng": 72.8777}},
+  {"id": "det-002", "device_id": "esp-003", "timestamp": "2026-06-10T01:42:00Z", "plastic_type": "HDPE", "resin_code": 2, "confidence": 0.89, "contaminated": false, "correct_bin": true, "fill_level_pct": 45, "location": {"lat": 19.0820, "lng": 72.8850}},
+  {"id": "det-003", "device_id": "esp-002", "timestamp": "2026-06-10T01:38:00Z", "plastic_type": "PP", "resin_code": 5, "confidence": 0.76, "contaminated": true, "correct_bin": false, "fill_level_pct": 82, "location": {"lat": 19.0650, "lng": 72.8700}},
+  {"id": "det-004", "device_id": "esp-005", "timestamp": "2026-06-10T01:35:00Z", "plastic_type": "LDPE", "resin_code": 4, "confidence": 0.91, "contaminated": false, "correct_bin": true, "fill_level_pct": 23, "location": {"lat": 19.0900, "lng": 72.8900}},
+  {"id": "det-005", "device_id": "esp-001", "timestamp": "2026-06-10T01:30:00Z", "plastic_type": "PET", "resin_code": 1, "confidence": 0.88, "contaminated": false, "correct_bin": true, "fill_level_pct": 65, "location": {"lat": 19.0760, "lng": 72.8777}},
+  {"id": "det-006", "device_id": "esp-004", "timestamp": "2026-06-10T01:28:00Z", "plastic_type": "PS", "resin_code": 6, "confidence": 0.82, "contaminated": false, "correct_bin": false, "fill_level_pct": 91, "location": {"lat": 19.0720, "lng": 72.8650}},
+  {"id": "det-007", "device_id": "esp-003", "timestamp": "2026-06-10T01:25:00Z", "plastic_type": "PVC", "resin_code": 3, "confidence": 0.79, "contaminated": false, "correct_bin": true, "fill_level_pct": 44, "location": {"lat": 19.0820, "lng": 72.8850}},
+  {"id": "det-008", "device_id": "esp-006", "timestamp": "2026-06-10T01:22:00Z", "plastic_type": "Other", "resin_code": 7, "confidence": 0.65, "contaminated": true, "correct_bin": false, "fill_level_pct": 78, "location": {"lat": 19.0950, "lng": 72.8950}},
+  {"id": "det-009", "device_id": "esp-002", "timestamp": "2026-06-10T01:18:00Z", "plastic_type": "PET", "resin_code": 1, "confidence": 0.93, "contaminated": false, "correct_bin": true, "fill_level_pct": 80, "location": {"lat": 19.0650, "lng": 72.8700}},
+  {"id": "det-010", "device_id": "esp-007", "timestamp": "2026-06-10T01:15:00Z", "plastic_type": "HDPE", "resin_code": 2, "confidence": 0.87, "contaminated": false, "correct_bin": true, "fill_level_pct": 34, "location": {"lat": 19.1000, "lng": 72.9000}}
+]

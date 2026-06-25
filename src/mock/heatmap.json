@@ -1,0 +1,14 @@
+{
+  "points": [
+    {"lat": 19.0760, "lng": 72.8777, "intensity": 0.9},
+    {"lat": 19.0820, "lng": 72.8850, "intensity": 0.7},
+    {"lat": 19.0650, "lng": 72.8700, "intensity": 0.8},
+    {"lat": 19.0720, "lng": 72.8650, "intensity": 0.6},
+    {"lat": 19.0900, "lng": 72.8900, "intensity": 0.5},
+    {"lat": 19.0950, "lng": 72.8950, "intensity": 0.7},
+    {"lat": 19.1000, "lng": 72.9000, "intensity": 0.4},
+    {"lat": 19.0500, "lng": 72.8400, "intensity": 0.6},
+    {"lat": 19.0600, "lng": 72.8500, "intensity": 0.3},
+    {"lat": 19.1100, "lng": 72.8500, "intensity": 0.8}
+  ]
+}
