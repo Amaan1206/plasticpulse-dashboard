@@ -27,7 +27,7 @@ export default function BinStatusPill({ bin }) {
 
   return (
     <button 
-      onClick={() => navigate('/bins')}
+      onClick={() => navigate('/dashboard/bins')}
       className={`flex-shrink-0 w-48 p-4 rounded-2xl border ${borderAccent} bg-gradient-to-b ${bgTint} text-left transition-all duration-400 hover:scale-[1.03] cursor-pointer group relative overflow-hidden`}
     >
       {/* Hover glow */}

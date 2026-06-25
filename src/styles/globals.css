@@ -109,6 +109,136 @@
     transform: translateY(-2px);
   }
 
+  /* ── Interactive map pins (landing page) ───────────────────────── */
+  .ww-pin-wrap { background: transparent !important; border: none !important; }
+
+  .ww-pin {
+    position: relative;
+    width: 40px;
+    height: 48px;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ww-pin:hover { transform: translateY(-4px) scale(1.08); }
+  .ww-pin.is-active { transform: translateY(-4px) scale(1.12); }
+
+  .ww-pin-head {
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    margin-left: -19px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--c);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+  }
+  .ww-pin-head svg { color: #fff; }
+
+  .ww-pin-tip {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    margin-left: -6px;
+    width: 12px;
+    height: 12px;
+    background: var(--c);
+    transform: rotate(45deg);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+
+  .ww-pin-ring {
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    margin-left: -19px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid var(--c);
+    opacity: 0.6;
+    animation: ww-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  @keyframes ww-ping {
+    0% { transform: scale(1); opacity: 0.55; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+
+  /* Glass popup card for the map pins */
+  .ww-popup .leaflet-popup-content-wrapper {
+    background: rgba(12, 21, 39, 0.85);
+    backdrop-filter: blur(22px) saturate(1.7);
+    -webkit-backdrop-filter: blur(22px) saturate(1.7);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 18px;
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.55);
+    color: #fff;
+    overflow: hidden;
+  }
+  .ww-popup .leaflet-popup-content { margin: 0; width: 248px !important; }
+  .ww-popup .leaflet-popup-tip { background: rgba(12, 21, 39, 0.85); }
+  .ww-popup .leaflet-popup-close-button { display: none; }
+
+  /* Liquid glass — premium frosted panel with layered highlights */
+  .liquid-glass {
+    background: linear-gradient(135deg, rgba(20, 32, 56, 0.55) 0%, rgba(8, 14, 28, 0.45) 100%);
+    backdrop-filter: blur(28px) saturate(1.8);
+    -webkit-backdrop-filter: blur(28px) saturate(1.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 8px 40px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.20);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .liquid-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .liquid-glass::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(0, 232, 174, 0.25), rgba(122, 104, 255, 0.18) 45%, transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .liquid-glass-hover {
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .liquid-glass-hover:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow:
+      0 26px 60px rgba(0, 0, 0, 0.45),
+      0 0 50px rgba(0, 232, 174, 0.10),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  }
+
   /* Signature gradient text */
   .text-gradient {
     background: linear-gradient(135deg, #00E8AE 0%, #7A68FF 50%, #FF5C85 100%);

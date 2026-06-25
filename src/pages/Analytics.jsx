@@ -3,7 +3,8 @@ import StatCard from '../components/common/StatCard.jsx'
 import LineChart from '../components/charts/LineChart.jsx'
 import DonutChart from '../components/charts/DonutChart.jsx'
 import BarChart from '../components/charts/BarChart.jsx'
-import { Scan, TrendingUp, Weight, BarChart3, Lightbulb, Inbox } from 'lucide-react'
+import { Scan, TrendingUp, Gauge, BarChart3, Lightbulb, Inbox } from 'lucide-react'
+import { getCategory } from '../lib/categories.js'
 
 const presets = [
   { label: 'Today', days: 1 },
@@ -56,9 +57,9 @@ export default function Analytics() {
 
       {/* Summary Stats */}
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-5">
-        <StatCard title="Total Scans" value={data?.total_scans || 0} icon={Scan} color="teal" />
+        <StatCard title="Total Items" value={data?.total_scans || 0} icon={Scan} color="teal" />
         <StatCard title="Correct Placement Rate" value={data?.correct_pct || 0} suffix="%" icon={TrendingUp} color="mint" />
-        <StatCard title="Kg Recorded" value={data?.kg_recorded || 0} suffix=" kg" icon={Weight} color="iris" />
+        <StatCard title="Avg Confidence" value={data?.average_confidence || 0} suffix="%" icon={Gauge} color="iris" />
       </div>
 
       {/* Date Filter — Segmented Pill */}
@@ -125,15 +126,13 @@ export default function Analytics() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="glass-card p-6">
-                <h3 className="text-lg font-bold text-white mb-5 font-display">Plastic Type Breakdown</h3>
+                <h3 className="text-lg font-bold text-white mb-5 font-display">Material Category Breakdown</h3>
                 <DonutChart data={data.type_breakdown} centerValue={data.total_scans} />
                 <div className="mt-5 grid grid-cols-2 gap-2">
                   {data.type_breakdown.map(item => (
                     <div key={item.type} className="flex items-center justify-between text-sm py-2.5 px-3 rounded-xl bg-ocean-800/25 border border-ocean-600/5">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-2.5 h-2.5 rounded-full" style={{ 
-                          backgroundColor: {PET: '#3B82F6', HDPE: '#00E8AE', PVC: '#FF5C85', LDPE: '#FFC81A', PP: '#7A68FF', PS: '#FF6B1A', Other: '#5A6A80'}[item.type] 
-                        }} />
+                        <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getCategory(item.type).color }} />
                         <span className="text-slate-300 font-semibold">{item.type}</span>
                       </div>
                       <div className="text-right">

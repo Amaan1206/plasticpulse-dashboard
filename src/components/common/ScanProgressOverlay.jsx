@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { Scan, CheckCircle2, Cpu } from 'lucide-react'
+import { getCategory } from '../../lib/categories.js'
 
 export default function ScanProgressOverlay({ scanProgress }) {
   const entries = Object.entries(scanProgress)
@@ -133,7 +134,7 @@ function ScanCard({ deviceId, session }) {
 
           <h3 className="text-lg font-bold text-white font-display truncate mb-1">
             {isComplete && session.result
-              ? `Detected: ${session.result.plastic_type} Plastic`
+              ? `Detected: ${getCategory(session.result.material_category || session.result.plastic_type).key}`
               : 'Analyzing Object'
             }
           </h3>

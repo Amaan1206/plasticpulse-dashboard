@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { formatDistanceToNow, format } from 'date-fns'
 import { History, Image, X, Filter, ChevronDown, Inbox, Scan, Cpu, Clock, Eye } from 'lucide-react'
+import { getCategory } from '../lib/categories.js'
 
 const compositionColors = {
   plastic: { bg: 'bg-iris-500', text: 'text-iris-400', label: 'Plastic' },
@@ -8,16 +9,6 @@ const compositionColors = {
   organic: { bg: 'bg-teal-500', text: 'text-teal-400', label: 'Organic' },
   glass: { bg: 'bg-sun-400', text: 'text-sun-300', label: 'Glass' },
   other: { bg: 'bg-slate-600', text: 'text-slate-500', label: 'Other' },
-}
-
-const typeGradients = {
-  PET: 'from-blue-500 to-teal-400',
-  HDPE: 'from-teal-500 to-mint-400',
-  PVC: 'from-rose-500 to-ember-400',
-  LDPE: 'from-sun-500 to-sun-300',
-  PP: 'from-iris-500 to-iris-300',
-  PS: 'from-ember-500 to-sun-400',
-  Other: 'from-slate-500 to-slate-400',
 }
 
 export default function ScanHistory() {
@@ -214,7 +205,9 @@ export default function ScanHistory() {
 }
 
 function ScanLogEntry({ scan, index, onViewImage }) {
-  const gradient = typeGradients[scan.plastic_type] || typeGradients.Other
+  const category = getCategory(scan.material_category || scan.plastic_type)
+  const gradient = category.gradient
+  const handlingAction = scan.handling_action || category.handling_action
   const composition = scan.composition || {}
   const hasComposition = Object.keys(composition).length > 0
   const confidence = Math.round((scan.confidence || 0) * 100)
@@ -229,10 +222,10 @@ function ScanLogEntry({ scan, index, onViewImage }) {
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex items-center gap-4 min-w-0">
             <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg shadow-ocean-950/50 flex-shrink-0`}>
-              <span className="text-xl font-bold text-white font-mono">#{scan.resin_code || '?'}</span>
+              <category.Icon className="w-6 h-6 text-white" />
             </div>
             <div className="min-w-0">
-              <h4 className="font-bold text-white text-[15px]">{scan.plastic_type || 'Unknown'} Plastic</h4>
+              <h4 className="font-bold text-white text-[15px]">{category.key}</h4>
               <div className="flex items-center gap-3 mt-1 text-xs text-slate-500">
                 <span className="flex items-center gap-1.5">
                   <Clock className="w-3 h-3" />
@@ -259,13 +252,11 @@ function ScanLogEntry({ scan, index, onViewImage }) {
                 View Image
               </button>
             )}
-            <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border ${
-              scan.correct_bin
-                ? 'bg-teal-500/8 text-teal-400 border-teal-500/15'
-                : 'bg-rose-500/8 text-rose-400 border-rose-500/15'
-            }`}>
-              {scan.correct_bin ? '✓ Correct' : '✗ Wrong Bin'}
-            </span>
+            {handlingAction && (
+              <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border ${category.badge}`}>
+                {handlingAction}
+              </span>
+            )}
           </div>
         </div>
 
@@ -294,7 +285,7 @@ function ScanLogEntry({ scan, index, onViewImage }) {
             >
               <img
                 src={`/api/scans/${scan.id}/image`}
-                alt={`${scan.plastic_type || 'Plastic'} scan`}
+                alt={`${category.key} scan`}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ocean-950 via-ocean-950/65 to-transparent px-4 py-3 flex items-center justify-between text-xs">

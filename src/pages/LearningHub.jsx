@@ -1,78 +1,193 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import Modal from '../components/common/Modal.jsx'
-import { BookOpen, ArrowRight, RotateCcw, CheckCircle2, XCircle, ChevronRight, Droplets, Recycle, Truck, Factory, Shirt, Sparkles, Beaker, Flame, Leaf, Star } from 'lucide-react'
+import {
+  BookOpen, RotateCcw, CheckCircle2, XCircle, ChevronRight, Star, Workflow,
+  Trash2, Camera, Cpu, Radio, Gauge, Truck, Building2, ArrowRight,
+} from 'lucide-react'
 import learnData from '../mock/learn.json'
 
-const resinGradients = {
-  1: 'from-violet-500 via-iris-400 to-jade-400',
-  2: 'from-jade-400 via-jade-400 to-mint-500',
-  3: 'from-terracotta-400 via-terracotta-300 to-ember-400',
-  4: 'from-amber-400 via-amber-300 to-ember-400',
-  5: 'from-violet-500 via-iris-400 to-iris-600',
-  6: 'from-ember-400 via-sun-400 to-sun-500',
-  7: 'from-slate-400 via-slate-300 to-slate-500',
-}
-
-const binColors = {
-  'Blue': 'bg-violet-500/8 text-violet-500 border-violet-400/15',
-  'Red': 'bg-rose-500/8 text-terracotta-500 border-terracotta-400/15',
-}
-
-const recyclableColors = {
-  'Recyclable': 'bg-jade-400/8 text-jade-500 border-jade-400/15',
-  'Non-Recyclable': 'bg-rose-500/8 text-terracotta-500 border-terracotta-400/15',
-  'Drop-off Only': 'bg-sun-500/8 text-amber-500 border-sun-500/15',
-}
-
-const journeySteps = [
-  { icon: Recycle, label: 'PET bottle in correct bin', color: 'text-violet-500', bg: 'bg-violet-500/10' },
-  { icon: Truck, label: 'Municipal collection truck', color: 'text-amber-500', bg: 'bg-amber-400/10' },
-  { icon: Factory, label: 'Arrives at recycling facility', color: 'text-slate-400', bg: 'bg-slate-500/10' },
-  { icon: Droplets, label: 'Shredded into flakes', color: 'text-violet-400', bg: 'bg-violet-500/10' },
-  { icon: Sparkles, label: 'Flakes cleaned & processed', color: 'text-violet-500', bg: 'bg-iris-500/10' },
-  { icon: Shirt, label: 'Spun into polyester fibre', color: 'text-violet-500', bg: 'bg-violet-500/10' },
-  { icon: CheckCircle2, label: 'Becomes a new T-shirt', color: 'text-jade-500', bg: 'bg-mint-500/10' },
+// ─── End-to-end project journey ─────────────────────────────────────────
+const journey = [
+  { icon: Trash2,    title: 'Waste Dropped',     desc: 'A citizen drops an item into a WasteWise smart bin.', accent: 'teal',
+    detail: 'Smart bins sit at high-traffic civic points. Citizens need no app and no sorting knowledge — they just drop waste as they normally would. The work happens after the drop.' },
+  { icon: Camera,    title: 'Camera Captures',   desc: 'The ESP32-S3 camera photographs the item as it falls in.', accent: 'sky',
+    detail: 'A low-cost ESP32-S3 board with an onboard camera snaps the item automatically the moment it enters the bin — no staff, no manual scanning, no citizen action required.' },
+  { icon: Cpu,       title: 'AI Classifies',     desc: 'On-device AI sorts it into one of nine waste categories.', accent: 'iris',
+    detail: 'A lightweight model runs on the device itself — no cloud round-trip — labelling the item as Plastic, Glass, Metal, Paper, Biological and four more in under a second.' },
+  { icon: Radio,     title: 'Streamed Live',     desc: 'The detection streams over WebSocket to the dashboard.', accent: 'mint',
+    detail: 'Each detection is pushed live with category, confidence, timestamp and bin ID, building a permanent, searchable record the city can audit any time.' },
+  { icon: Gauge,     title: 'Bin Monitored',     desc: 'Fill level is tracked; a full bin raises an overflow alert.', accent: 'sun',
+    detail: 'Continuous fill tracking shows which bins fill fastest and predicts overflow before it happens — replacing fixed guesswork routes with real demand.' },
+  { icon: Truck,     title: 'Municipality Acts', desc: 'The ward office is alerted and dispatches a crew.', accent: 'ember', municipal: true,
+    detail: 'Crews are sent only to bins that actually need servicing instead of running fixed daily rounds — cutting fuel, labour hours and missed pickups across the ward.' },
+  { icon: Building2, title: 'City Benefits',      desc: 'Cleaner wards, higher recycling, data-driven planning.', accent: 'rose', municipal: true,
+    detail: 'Ward officers get live segregation accuracy, hotspot maps and trends — turning street-level waste data into measurable policy and cleaner neighbourhoods.' },
 ]
 
-// ─── Main Learning Hub ───────────────────────────────────────────────
+const benefits = ['Faster overflow response', 'Less street litter', 'Higher recycling rate', 'Data-driven ward planning']
+
+const jAccent = {
+  teal:  { text: 'text-teal-400',  glow: 'rgba(0,232,174,0.5)',  bg: 'bg-teal-500/12' },
+  sky:   { text: 'text-sky-400',   glow: 'rgba(56,189,248,0.5)', bg: 'bg-sky-500/12' },
+  iris:  { text: 'text-iris-400',  glow: 'rgba(122,104,255,0.5)',bg: 'bg-iris-500/12' },
+  mint:  { text: 'text-mint-400',  glow: 'rgba(26,255,136,0.5)', bg: 'bg-mint-500/12' },
+  sun:   { text: 'text-sun-400',   glow: 'rgba(255,200,26,0.5)', bg: 'bg-sun-500/12' },
+  ember: { text: 'text-ember-400', glow: 'rgba(255,133,61,0.5)', bg: 'bg-ember-500/12' },
+  rose:  { text: 'text-rose-400',  glow: 'rgba(255,92,133,0.5)', bg: 'bg-rose-500/12' },
+}
+
+function ProjectJourney() {
+  const total = journey.length
+  const [active, setActive] = useState(0)
+  const [hovered, setHovered] = useState(null)
+
+  // Auto-orbit through the steps; pause while the user is exploring a node.
+  useEffect(() => {
+    if (hovered !== null) return
+    const id = setInterval(() => setActive((a) => (a + 1) % total), 1500)
+    return () => clearInterval(id)
+  }, [hovered, total])
+
+  // Geometry — place nodes evenly around a circle, starting at the top.
+  const R = 41 // radius as % of the square container
+  const nodePos = journey.map((_, i) => {
+    const theta = (-90 + i * (360 / total)) * (Math.PI / 180)
+    return { left: 50 + R * Math.cos(theta), top: 50 + R * Math.sin(theta) }
+  })
+
+  const C = 2 * Math.PI * R
+  const progress = (active + 1) / total // arc fill follows the orbit
+  const shownIndex = hovered !== null ? hovered : active
+  const shown = journey[shownIndex]
+  const showDetail = hovered !== null
+  const sa = jAccent[shown.accent]
+
+  return (
+    <div className="relative z-10 glass-card p-6 lg:p-9 overflow-hidden">
+      <div className="absolute -top-24 -right-24 w-72 h-72 bg-teal-500/[0.06] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-iris-500/[0.06] rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="relative z-10">
+        <div className="flex items-center gap-3 mb-1">
+          <Workflow className="w-5 h-5 text-teal-400" />
+          <h3 className="text-xl font-bold text-white font-display">How WasteWise Works — End to End</h3>
+        </div>
+        <p className="text-sm text-slate-400 font-medium mb-8">
+          From the moment waste is dropped to a cleaner, smarter city.
+          <span className="text-slate-500"> Hover any step to learn more.</span>
+        </p>
+
+        <div className="relative mx-auto w-full max-w-[560px] aspect-square">
+          {/* Orbit ring + animated progress arc */}
+          <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full -rotate-90">
+            <circle cx="50" cy="50" r={R} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="0.6" strokeDasharray="0.6 2.4" />
+            <motion.circle
+              cx="50" cy="50" r={R} fill="none" stroke="url(#jgrad)" strokeWidth="1.1" strokeLinecap="round"
+              strokeDasharray={C}
+              animate={{ strokeDashoffset: C * (1 - progress) }}
+              transition={{ duration: 0.7, ease: 'easeInOut' }}
+              style={{ filter: 'drop-shadow(0 0 3px rgba(0,232,174,0.5))' }}
+            />
+            <defs>
+              <linearGradient id="jgrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#00E8AE" />
+                <stop offset="50%" stopColor="#FFC81A" />
+                <stop offset="100%" stopColor="#FF5C85" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          {/* Center hub — reflects the active step, or the hovered one in detail */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[52%] aspect-square rounded-full bg-ocean-900/70 border border-white/10 backdrop-blur-xl grid place-items-center text-center p-5 shadow-2xl">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={shownIndex + (showDetail ? '-d' : '')}
+                initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.3 }}
+                className="flex flex-col items-center"
+              >
+                <div className={`w-12 h-12 rounded-2xl grid place-items-center mb-3 ${sa.bg}`} style={{ boxShadow: `0 0 22px -2px ${sa.glow}` }}>
+                  <shown.icon className={`w-6 h-6 ${sa.text}`} />
+                </div>
+                <span className={`text-[10px] font-bold font-mono ${sa.text}`}>STEP {shownIndex + 1} / {total}</span>
+                <h4 className="text-base lg:text-lg font-bold text-white font-display mt-1">{shown.title}</h4>
+                <p className="text-[11px] lg:text-xs text-slate-400 font-medium mt-1.5 leading-relaxed max-w-[200px]">
+                  {showDetail ? shown.detail : shown.desc}
+                </p>
+                {shown.municipal && (
+                  <span className="mt-2.5 flex items-center gap-1 text-[10px] font-bold text-ember-400 bg-ember-500/10 border border-ember-500/20 px-2 py-0.5 rounded-md">
+                    <Building2 className="w-3 h-3" /> MUNICIPAL BENEFIT
+                  </span>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Step nodes around the circle */}
+          {journey.map((step, i) => {
+            const a = jAccent[step.accent]
+            const on = i === shownIndex || i === active
+            const pos = nodePos[i]
+            return (
+              <button
+                key={step.title}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
+                style={{ left: `${pos.left}%`, top: `${pos.top}%`, transform: 'translate(-50%,-50%)' }}
+                className="absolute z-10 group"
+                aria-label={step.title}
+              >
+                <motion.div
+                  animate={{ scale: on ? 1.15 : 1 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 16 }}
+                  className={`relative w-12 h-12 lg:w-14 lg:h-14 rounded-2xl grid place-items-center ring-1 transition-colors duration-300 ${on ? `${a.bg} ring-white/25` : 'bg-ocean-800/80 ring-white/10 hover:bg-ocean-700/80'}`}
+                  style={on ? { boxShadow: `0 0 24px -2px ${a.glow}` } : undefined}
+                >
+                  <step.icon className={`w-[22px] h-[22px] transition-colors duration-300 ${on ? a.text : 'text-slate-400'}`} />
+                  {i === active && hovered === null && (
+                    <span className="absolute inset-0 rounded-2xl animate-ping" style={{ boxShadow: `0 0 0 2px ${a.glow}` }} />
+                  )}
+                  <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-ocean-900 border border-white/15 grid place-items-center text-[9px] font-bold font-mono text-slate-300">{i + 1}</span>
+                </motion.div>
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Municipal impact chips */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
+          <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500 mr-1">Municipal impact</span>
+          {benefits.map((b) => (
+            <span key={b} className="flex items-center gap-1.5 text-xs font-semibold text-teal-300 bg-teal-500/10 border border-teal-500/20 px-3 py-1.5 rounded-full">
+              <CheckCircle2 className="w-3.5 h-3.5" /> {b}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function LearningHub() {
-  const [selectedResin, setSelectedResin] = useState(null)
   const [quizState, setQuizState] = useState({ currentQuestion: 0, score: 0, answered: false, selectedAnswer: null, showResults: false })
-  const [journeyVisible, setJourneyVisible] = useState(false)
-  const [journeyStep, setJourneyStep] = useState(0)
-  const journeyRef = useRef(null)
 
   const quiz = learnData.quiz
   const currentQ = quiz[quizState.currentQuestion]
 
   useEffect(() => {
-    const saved = localStorage.getItem('plasticpulse_quiz')
+    const saved = localStorage.getItem('wastewise_quiz')
     if (saved) {
       const parsed = JSON.parse(saved)
       setQuizState(prev => ({ ...prev, ...parsed }))
     }
   }, [])
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) setJourneyVisible(true) }, { threshold: 0.3 })
-    if (journeyRef.current) observer.observe(journeyRef.current)
-    return () => observer.disconnect()
-  }, [])
-
-  useEffect(() => {
-    if (journeyVisible && journeyStep < journeySteps.length) {
-      const timer = setTimeout(() => setJourneyStep(prev => prev + 1), 700)
-      return () => clearTimeout(timer)
-    }
-  }, [journeyVisible, journeyStep])
-
   const handleAnswer = (index) => {
     if (quizState.answered) return
     const isCorrect = index === currentQ.correct
     const newState = { ...quizState, answered: true, selectedAnswer: index, score: isCorrect ? quizState.score + 1 : quizState.score }
     setQuizState(newState)
-    localStorage.setItem('plasticpulse_quiz', JSON.stringify(newState))
+    localStorage.setItem('wastewise_quiz', JSON.stringify(newState))
   }
 
   const nextQuestion = () => {
@@ -81,21 +196,22 @@ export default function LearningHub() {
     } else {
       const newState = { ...quizState, currentQuestion: quizState.currentQuestion + 1, answered: false, selectedAnswer: null }
       setQuizState(newState)
-      localStorage.setItem('plasticpulse_quiz', JSON.stringify(newState))
+      localStorage.setItem('wastewise_quiz', JSON.stringify(newState))
     }
   }
 
   const resetQuiz = () => {
     const newState = { currentQuestion: 0, score: 0, answered: false, selectedAnswer: null, showResults: false }
     setQuizState(newState)
-    localStorage.setItem('plasticpulse_quiz', JSON.stringify(newState))
+    localStorage.setItem('wastewise_quiz', JSON.stringify(newState))
   }
 
   const getScoreMessage = (score) => {
-    if (score >= 9) return 'Outstanding! You are a PlasticPulse expert!'
-    if (score >= 7) return 'Great job! You know your plastics well.'
-    if (score >= 5) return 'Good effort! Review the resin codes and try again.'
-    return 'Keep learning! Check the resin code cards above.'
+    const pct = (score / quiz.length) * 100
+    if (pct >= 90) return 'Outstanding! You are a segregation pro.'
+    if (pct >= 70) return 'Great job! You know your waste categories well.'
+    if (pct >= 50) return 'Good effort! Review the category cards and try again.'
+    return 'Keep learning! Check the category guide above.'
   }
 
   return (
@@ -112,132 +228,14 @@ export default function LearningHub() {
             <BookOpen className="w-6 h-6 text-slate-800" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-slate-800 font-display">Plastic Learning Hub</h2>
-            <p className="text-sm text-slate-400 font-medium">Know your plastic. Segregate right. Save the city.</p>
+            <h2 className="text-2xl font-bold text-slate-800 font-display">WasteWise Learning Hub</h2>
+            <p className="text-sm text-slate-400 font-medium">Know your categories. Segregate right. Save the city.</p>
           </div>
         </div>
       </div>
 
-
-
-      {/* Resin Code Cards */}
-      <div className="relative z-10">
-        <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3 font-display">
-          <Beaker className="w-5 h-5 text-violet-500" />
-          Know Your Plastic
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {learnData.resin_codes.map((resin) => (
-            <motion.div
-              key={resin.code}
-              whileHover={{ y: -6, scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="glass-card p-6 cursor-pointer card-hover border-l-[3px] border-l-transparent hover:border-l-teal-500/50 relative overflow-hidden group"
-              onClick={() => setSelectedResin(resin)}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-jade-400/5 via-transparent to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative z-10">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${resinGradients[resin.code]} flex items-center justify-center mb-5 shadow-lg`}>
-                  <span className="text-3xl font-bold text-slate-800 font-mono">{resin.code}</span>
-                </div>
-                <h4 className="font-bold text-slate-800 text-lg font-display">{resin.name}</h4>
-                <p className="text-xs text-slate-400 mt-1 font-medium">{resin.full_name}</p>
-                <div className="flex flex-wrap gap-2 mt-4">
-                  <span className={`px-2.5 py-1 rounded-xl text-xs font-bold border ${binColors[resin.bin] || binColors.Blue}`}>
-                    {resin.bin} Bin
-                  </span>
-                  <span className={`px-2.5 py-1 rounded-xl text-xs font-bold border ${recyclableColors[resin.recyclable] || recyclableColors['Recyclable']}`}>
-                    {resin.recyclable}
-                  </span>
-                </div>
-                <p className="text-xs text-slate-400 mt-3 font-medium">
-                  <span className="font-bold text-slate-400">Common:</span> {resin.examples.slice(0, 2).join(', ')}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      {/* Resin Detail Modal */}
-      <Modal isOpen={!!selectedResin} onClose={() => setSelectedResin(null)} title={selectedResin?.full_name} size="lg">
-        {selectedResin && (
-          <div className="space-y-5">
-            <div className="flex items-center gap-5">
-              <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${resinGradients[selectedResin.code]} flex items-center justify-center shadow-xl`}>
-                <span className="text-4xl font-bold text-slate-800 font-mono">{selectedResin.code}</span>
-              </div>
-              <div>
-                <h4 className="text-2xl font-bold text-slate-800 font-display">{selectedResin.name}</h4>
-                <p className="text-sm text-slate-400 font-medium">Decomposes in: <span className="text-terracotta-500 font-bold">{selectedResin.decomposition}</span></p>
-              </div>
-            </div>
-            <div className="p-5 bg-ocean-800/30 rounded-2xl border border-white/50">
-              <p className="text-sm font-bold text-slate-300 mb-3">Common Indian Examples</p>
-              <div className="flex flex-wrap gap-2">
-                {selectedResin.examples.map(ex => (
-                  <span key={ex} className="px-3 py-2 bg-white/40 rounded-xl text-sm text-slate-300 font-medium border border-white/50">{ex}</span>
-                ))}
-              </div>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-slate-800 mb-2 font-display">Why It Matters</p>
-              <p className="text-sm text-slate-400 leading-relaxed">{selectedResin.why}</p>
-            </div>
-            <div className="p-5 bg-teal-500/5 border border-teal-500/10 rounded-2xl">
-              <p className="text-sm font-bold text-violet-500 mb-1 flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4" />
-                What To Do Right Now
-              </p>
-              <p className="text-sm text-slate-300">{selectedResin.action}</p>
-            </div>
-            {selectedResin.contamination && (
-              <div className="p-5 bg-rose-500/5 border border-rose-500/10 rounded-2xl">
-                <p className="text-sm font-bold text-terracotta-500 mb-1 flex items-center gap-2">
-                  <Flame className="w-4 h-4" />
-                  Contamination Warning
-                </p>
-                <p className="text-sm text-slate-300">{selectedResin.contamination}</p>
-              </div>
-            )}
-          </div>
-        )}
-      </Modal>
-
-      {/* Plastic Journey Animation */}
-      <div ref={journeyRef} className="relative z-10 glass-card p-8">
-        <h3 className="text-xl font-bold text-slate-800 mb-8 flex items-center gap-3 font-display">
-          <Leaf className="w-5 h-5 text-jade-500" />
-          Your Bisleri Bottle's Second Life
-        </h3>
-        <div className="relative">
-          <div className="absolute top-10 left-0 right-0 h-0.5 bg-ocean-800">
-            <motion.div className="h-full bg-gradient-to-r from-jade-400 via-iris-500 to-mint-500" initial={{ width: '0%' }} animate={{ width: journeyVisible ? '100%' : '0%' }} transition={{ duration: 5, ease: 'easeInOut' }} />
-          </div>
-          <div className="grid grid-cols-7 gap-3 relative z-10">
-            {journeySteps.map((step, i) => {
-              const StepIcon = step.icon
-              const isVisible = journeyStep > i
-              return (
-                <motion.div key={i} initial={{ opacity: 0, y: 30 }} animate={{ opacity: isVisible ? 1 : 0.2, y: isVisible ? 0 : 30 }} transition={{ duration: 0.6, ease: 'easeOut' }} className="text-center">
-                  <div className={`w-20 h-20 mx-auto rounded-2xl bg-ocean-800/50 border border-white/50 flex items-center justify-center mb-4 transition-all duration-500 ${isVisible ? 'shadow-lg' : ''}`}>
-                    <StepIcon className={`w-8 h-8 transition-colors duration-500 ${isVisible ? step.color : 'text-slate-400'}`} />
-                  </div>
-                  <p className={`text-xs font-semibold transition-colors duration-500 ${isVisible ? 'text-slate-300' : 'text-slate-400'}`}>{step.label}</p>
-                </motion.div>
-              )
-            })}
-          </div>
-          {journeyStep >= journeySteps.length && (
-            <div className="text-center mt-8">
-              <button onClick={() => { setJourneyStep(0); setTimeout(() => setJourneyStep(1), 100) }} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/40 hover:bg-white/50 text-slate-400 text-sm font-bold transition-all border border-white/50 hover:border-violet-200/30">
-                <RotateCcw className="w-4 h-4" />
-                Replay Animation
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
+      {/* End-to-end animated project journey */}
+      <ProjectJourney />
 
       {/* Quiz Mode */}
       <div className="relative z-10 glass-card p-8">

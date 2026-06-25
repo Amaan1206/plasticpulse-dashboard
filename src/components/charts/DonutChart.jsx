@@ -1,17 +1,9 @@
 import { useState } from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { useCountUp } from '../../hooks/useCountUp.js'
+import { getCategory } from '../../lib/categories.js'
 
-const COLORS = {
-  PET: '#3B82F6',
-  HDPE: '#00E8AE',
-  PVC: '#FF5C85',
-  LDPE: '#FFC81A',
-  PP: '#7A68FF',
-  PS: '#FF6B1A',
-  Other: '#5A6A80',
-  Contaminated: '#E6174F',
-}
+const colorFor = (name) => (name === 'Contaminated' ? '#E6174F' : getCategory(name).color)
 
 export default function DonutChart({ data, centerValue, centerLabel }) {
   const [activeIndex, setActiveIndex] = useState(null)
@@ -26,7 +18,7 @@ export default function DonutChart({ data, centerValue, centerLabel }) {
       return (
         <div className="bg-ocean-900/95 backdrop-blur-xl p-4 rounded-2xl border border-ocean-600/20 shadow-2xl">
           <div className="flex items-center gap-2 mb-1.5">
-            <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: COLORS[d.type || d.name] }} />
+            <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: colorFor(d.type || d.name) }} />
             <p className="text-sm font-bold text-white">{d.type || d.name}</p>
           </div>
           <p className="text-xs text-slate-400">{d.count || d.value} items <span className="text-slate-600">({d.pct}%)</span></p>
@@ -56,16 +48,16 @@ export default function DonutChart({ data, centerValue, centerLabel }) {
             animationEasing="ease-out"
           >
             {data.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
-                fill={COLORS[entry.type || entry.name] || COLORS.Other}
+              <Cell
+                key={`cell-${index}`}
+                fill={colorFor(entry.type || entry.name)}
                 stroke="rgba(6, 10, 20, 0.9)"
                 strokeWidth={3}
                 style={{
                   transform: activeIndex === index ? 'scale(1.08)' : 'scale(1)',
                   transformOrigin: 'center',
                   transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                  filter: activeIndex === index ? `brightness(1.2) drop-shadow(0 0 8px ${COLORS[entry.type || entry.name]}40)` : 'brightness(1)',
+                  filter: activeIndex === index ? `brightness(1.2) drop-shadow(0 0 8px ${colorFor(entry.type || entry.name)}40)` : 'brightness(1)',
                 }}
               />
             ))}

@@ -149,7 +149,7 @@ export default function BinMonitor() {
                       Mumbai, Maharashtra
                     </p>
                   </div>
-                  <Badge color={cardColor} size="md">{bin.top_plastic_type}</Badge>
+                  <Badge color={cardColor} size="md">{bin.most_detected_category}</Badge>
                 </div>
 
                 <div className="flex items-end gap-2 mb-3">

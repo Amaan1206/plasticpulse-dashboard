@@ -70,7 +70,7 @@ export default function DriveManager() {
   }
 
   const shareOnWhatsApp = (drive) => {
-    const text = `🌊 PlasticPulse Cleanup Drive Report\n\n${drive.title}\n📍 ${drive.area}\n♻️ ${drive.collected_kg} kg collected\n👥 ${drive.participant_count} participants\n\nJoin the movement!`
+    const text = `🌊 WasteWise Cleanup Drive Report\n\n${drive.title}\n📍 ${drive.area}\n♻️ ${drive.collected_kg} kg collected\n👥 ${drive.participant_count} participants\n\nJoin the movement!`
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
   }
 

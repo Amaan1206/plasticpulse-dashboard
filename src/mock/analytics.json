@@ -1,7 +1,7 @@
 {
   "total_scans": 1247,
   "correct_pct": 78.4,
-  "kg_recorded": 186.3,
+  "average_confidence": 88.6,
   "volume_over_time": [
     {"timestamp": "2026-06-09T00:00:00Z", "count": 45},
     {"timestamp": "2026-06-09T04:00:00Z", "count": 32},
@@ -17,21 +17,25 @@
     {"timestamp": "2026-06-10T20:00:00Z", "count": 92}
   ],
   "type_breakdown": [
-    {"type": "PET", "resin_code": 1, "count": 423, "pct": 33.9},
-    {"type": "HDPE", "resin_code": 2, "count": 287, "pct": 23.0},
-    {"type": "PP", "resin_code": 5, "count": 198, "pct": 15.9},
-    {"type": "LDPE", "resin_code": 4, "count": 156, "pct": 12.5},
-    {"type": "PVC", "resin_code": 3, "count": 89, "pct": 7.1},
-    {"type": "PS", "resin_code": 6, "count": 67, "pct": 5.4},
-    {"type": "Other", "resin_code": 7, "count": 27, "pct": 2.2}
+    {"type": "Plastic", "count": 423, "pct": 33.9},
+    {"type": "Cardboard", "count": 198, "pct": 15.9},
+    {"type": "Paper", "count": 156, "pct": 12.5},
+    {"type": "Biological", "count": 134, "pct": 10.7},
+    {"type": "Glass", "count": 112, "pct": 9.0},
+    {"type": "Metal", "count": 89, "pct": 7.1},
+    {"type": "Vegetation", "count": 67, "pct": 5.4},
+    {"type": "Textile", "count": 41, "pct": 3.3},
+    {"type": "Miscellaneous", "count": 27, "pct": 2.2}
   ],
   "placement_accuracy": [
-    {"type": "PET", "correct": 398, "incorrect": 25},
-    {"type": "HDPE", "correct": 245, "incorrect": 42},
-    {"type": "PP", "correct": 156, "incorrect": 42},
-    {"type": "LDPE", "correct": 134, "incorrect": 22},
-    {"type": "PVC", "correct": 78, "incorrect": 11},
-    {"type": "PS", "correct": 45, "incorrect": 22},
-    {"type": "Other", "correct": 18, "incorrect": 9}
+    {"type": "Plastic", "correct": 398, "incorrect": 25},
+    {"type": "Cardboard", "correct": 180, "incorrect": 18},
+    {"type": "Paper", "correct": 134, "incorrect": 22},
+    {"type": "Biological", "correct": 112, "incorrect": 22},
+    {"type": "Glass", "correct": 104, "incorrect": 8},
+    {"type": "Metal", "correct": 78, "incorrect": 11},
+    {"type": "Vegetation", "correct": 58, "incorrect": 9},
+    {"type": "Textile", "correct": 33, "incorrect": 8},
+    {"type": "Miscellaneous", "correct": 18, "incorrect": 9}
   ]
 }

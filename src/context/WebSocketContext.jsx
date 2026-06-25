@@ -1,16 +1,32 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react'
+import { handlingActionFor } from '../lib/categories.js'
 
 const WebSocketContext = createContext(null)
 
 // Bridge server URLs — Vite proxies /api/* to port 3001 in dev
 const API_BASE_URL = '' // Leave empty — Vite proxy handles /api/* routing
 const WS_URL = 'ws://localhost:3001/ws/detections'
+const CAMERA_URL_KEY = 'wastewise_camera_url'
 
 export function WebSocketProvider({ children }) {
   const [status, setStatus] = useState('offline') // connecting, live, polling, offline
   const [detections, setDetections] = useState([])
   const [driveCounters, setDriveCounters] = useState({})
   const [scanProgress, setScanProgress] = useState({}) // { device_id: { progress, location_name, status } }
+  const [cameraStreamUrl, setCameraStreamUrlState] = useState(
+    () => (typeof localStorage !== 'undefined' ? localStorage.getItem(CAMERA_URL_KEY) || '' : '')
+  )
+
+  // Persist the ESP32 camera stream URL so it survives reloads.
+  const setCameraStreamUrl = useCallback((url) => {
+    setCameraStreamUrlState(url)
+    try {
+      if (url) localStorage.setItem(CAMERA_URL_KEY, url)
+      else localStorage.removeItem(CAMERA_URL_KEY)
+    } catch {
+      // localStorage unavailable — keep in-memory state only
+    }
+  }, [])
   const wsRef = useRef(null)
   const pollRef = useRef(null)
   const retryTimeoutRef = useRef(null)
@@ -67,15 +83,17 @@ export function WebSocketProvider({ children }) {
 
     // Process as a detection (both 'scan_complete' and 'detection' types, or legacy format)
     if (data.type === 'scan_complete' || data.type === 'detection' || data.id) {
+      // Map the backend's legacy `plastic_type` field to the new
+      // 9-category `material_category` model used throughout the UI.
+      const materialCategory = data.material_category || data.plastic_type
       const detection = {
         id: data.id || data.scan_id,
         device_id: data.device_id,
         timestamp: data.timestamp,
-        plastic_type: data.plastic_type,
-        resin_code: data.resin_code,
+        material_category: materialCategory,
         confidence: data.confidence,
         contaminated: data.contaminated,
-        correct_bin: data.correct_bin,
+        handling_action: data.handling_action || handlingActionFor(materialCategory),
         fill_level_pct: data.fill_level_pct,
         location_name: data.location_name,
         location: data.location || { lat: data.lat, lng: data.lng },
@@ -219,6 +237,8 @@ export function WebSocketProvider({ children }) {
     detections,
     driveCounters,
     scanProgress,
+    cameraStreamUrl,
+    setCameraStreamUrl,
     setStatus,
     setDetections,
     setDriveCounters,

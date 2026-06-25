@@ -62,7 +62,7 @@ export default function AreaReport() {
   const shareWhatsApp = () => {
     if (!report) return
     const improvementPct = ((report.after.correct_pct - report.before.correct_pct) / report.before.correct_pct * 100).toFixed(1)
-    const text = `📊 PlasticPulse Area Impact Report\n\n${report.area}\n✅ Wrong placements reduced by ${improvementPct}%\n♻️ ${report.after.total_scans} scans in after period\n🌱 Score improved from ${report.before.sustainability_score} to ${report.after.sustainability_score}\n\nPowered by PlasticPulse`
+    const text = `📊 WasteWise Area Impact Report\n\n${report.area}\n✅ Wrong placements reduced by ${improvementPct}%\n♻️ ${report.after.total_scans} scans in after period\n🌱 Score improved from ${report.before.sustainability_score} to ${report.after.sustainability_score}\n\nPowered by WasteWise`
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
   }
 
@@ -81,7 +81,7 @@ export default function AreaReport() {
           </div>
           <div>
             <h2 className="text-2xl font-bold text-slate-800 font-display">Area Impact Report</h2>
-            <p className="text-sm text-slate-400 font-medium">Compare plastic waste metrics across two time periods</p>
+            <p className="text-sm text-slate-400 font-medium">Compare waste metrics across two time periods</p>
           </div>
         </div>
       </div>
@@ -230,11 +230,11 @@ export default function AreaReport() {
                 {report.before_breakdown && report.after_breakdown && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="glass-card p-6">
-                      <h4 className="text-sm font-bold text-slate-400 mb-4 text-center uppercase tracking-[0.15em]">Before — Plastic Type Breakdown</h4>
+                      <h4 className="text-sm font-bold text-slate-400 mb-4 text-center uppercase tracking-[0.15em]">Before — Category Breakdown</h4>
                       <DonutChart data={report.before_breakdown} centerValue={report.before.total_scans} centerLabel="Total Scans" />
                     </div>
                     <div className="glass-card p-6">
-                      <h4 className="text-sm font-bold text-violet-500 mb-4 text-center uppercase tracking-[0.15em]">After — Plastic Type Breakdown</h4>
+                      <h4 className="text-sm font-bold text-violet-500 mb-4 text-center uppercase tracking-[0.15em]">After — Category Breakdown</h4>
                       <DonutChart data={report.after_breakdown} centerValue={report.after.total_scans} centerLabel="Total Scans" />
                     </div>
                   </div>
